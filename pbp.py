@@ -6,7 +6,7 @@ class NBA:
         self.teams = sdv.nba.nba_teams.espn_nba_teams()
         self.team_id = 0
 
-    def get_team_id(self, team_name):
+    def set_team_id(self, team_name):
         self.team_id = int(self.teams[self.teams["team_name"] == team_name]["team_id"])
         print("Object.team_id set to {}".format(self.team_id))
 
@@ -55,6 +55,8 @@ class NBA:
 
     def get_second_chance_points(self, pbp_data, team=None):
         # doesn't take into account fouls after offensive rebounds
+        # UPDATE: There are some free throws taken into account after offensive rebounds
+        #           Need to do more research on if all free throws after ORB are accounted for (and not have lag1 = foul instead of ORB)
 
         # create lag 1 column
         pbp_data["lag_1_text"] = pbp_data["cleaned_type_text"].shift(1)
@@ -66,7 +68,7 @@ class NBA:
                 pbp_data.loc[i, "is_second_chance_point"] = True
 
         # filter pbp for specific team
-        # # pull requested team id
+        # pull requested team id
         # team_id = self.get_team_id(team_name) if team else 0
 
         team_pbp = pbp_data[pbp_data["team_id"] == str(self.team_id)]
@@ -81,6 +83,6 @@ if __name__ == "__main__":
     nba = NBA()
 
     team = "Pacers"
-    nba.get_team_id(team)
+    nba.set_team_id(team)
     pbp = nba.get_pbp(seasons=[2022])
     nba.get_second_chance_points(pbp_data=pbp)
