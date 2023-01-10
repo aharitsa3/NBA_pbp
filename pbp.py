@@ -50,7 +50,7 @@ class NBA:
 
         # unique_texts = pbp_data.loc[:,"cleaned_type_text"].unique()
         # print(unique_texts)
-
+        print(pbp_data.columns)
         return pbp_data
 
     def get_second_chance_points(self, pbp_data, team=None):
@@ -85,4 +85,8 @@ if __name__ == "__main__":
     team = "Pacers"
     nba.set_team_id(team)
     pbp = nba.get_pbp(seasons=[2022])
-    nba.get_second_chance_points(pbp_data=pbp)
+    
+    # get second chance points for specified team
+    # nba.get_second_chance_points(pbp_data=pbp)
+
+
